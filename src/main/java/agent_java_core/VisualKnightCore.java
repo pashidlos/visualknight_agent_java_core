@@ -32,7 +32,7 @@ public class VisualKnightCore {
     }
 
     private void processTestSessionResult(UploadScreenshotMutation uploadResult) {
-        if (uploadResult.misMatchPercentage == null && uploadResult.isSameDimensions != false) {
+        if (uploadResult.misMatchPercentage == null) {
             throw new Error("For this image is no baseline defined! -> " + uploadResult.link);
         }
 

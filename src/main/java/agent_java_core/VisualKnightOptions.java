@@ -7,7 +7,6 @@ public class VisualKnightOptions {
     String apiEndpoint;
     String apiKey;
     String project;
-    Boolean liveResult;
     @Builder.Default
     Double misMatchTolerance = 0.01;
     @Builder.Default
