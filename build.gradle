@@ -29,6 +29,10 @@ sourceCompatibility = 1.8
 
 dependencies {
     implementation 'io.aexp.nodes.graphql:nodes:0.5.0'
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.testng', name: 'testng', version: '7.1.0'
     testImplementation 'commons-io:commons-io:2.6'
+}
+
+test{
+    useTestNG()
 }

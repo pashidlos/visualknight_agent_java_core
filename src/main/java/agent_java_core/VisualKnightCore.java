@@ -31,23 +31,23 @@ public class VisualKnightCore {
         this.processTestSessionResult(uploadResult);
     }
 
-    private void processTestSessionResult(UploadScreenshotMutation uploadResult) {
-        if (uploadResult.misMatchPercentage == null) {
-            throw new Error("For this image is no baseline defined! -> " + uploadResult.link);
+    void processTestSessionResult(UploadScreenshotMutation uploadResult) {
+        if (uploadResult.misMatchPercentage == null && (uploadResult.isSameDimensions == null || uploadResult.isSameDimensions)) {
+            throw new ImageProcessException("For this image is no baseline defined! -> " + uploadResult.link);
         }
 
         if (!uploadResult.isSameDimensions) {
-            throw new Error("Compared Screenshots are not in the same dimension! -> " + uploadResult.link);
+            throw new ImageProcessException("Compared Screenshots are not in the same dimension! -> " + uploadResult.link);
         }
 
         if (uploadResult.misMatchPercentage > visualKnightOptions.misMatchTolerance) {
-            throw new Error("Mismatch of " + uploadResult.misMatchPercentage + " " +
+            throw new ImageProcessException("Mismatch of " + uploadResult.misMatchPercentage + " " +
                     "is greater than the tolerance " + visualKnightOptions.misMatchTolerance + " " +
                     "-> " + uploadResult.link);
         }
     }
 
-    private String invokeTestSession(String testName, VisualKnightCapabilities capabilities) {
+    String invokeTestSession(String testName, VisualKnightCapabilities capabilities) {
         @GraphQLProperty(name = "invokeTestSession", arguments = {
                 @GraphQLArgument(name = "project", type = "String!"),
                 @GraphQLArgument(name = "testname", type = "String!"),
@@ -79,7 +79,7 @@ public class VisualKnightCore {
         return responseEntity.getResponse().get("invokeTestSession").toString();
     }
 
-    private UploadScreenshotMutation uploadScreenshot(String testSessionId, String base64Image) {
+    UploadScreenshotMutation uploadScreenshot(String testSessionId, String base64Image) {
         GraphQLRequestEntity requestEntity = graphQLRequestBuilder
                 .request(UploadScreenshotMutation.class)
                 .arguments(
